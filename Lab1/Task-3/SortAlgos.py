@@ -62,7 +62,7 @@ def blockSort(arr):
     block = [[] for t in range(length)]
     for i in range(length):
         j = int(arr[i]//size)
-        if j != length:
+        if j < length:
             block[j].append(arr[i])
         else:
             block[length - 1].append(arr[i])

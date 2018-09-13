@@ -1,7 +1,6 @@
 from SortAlgos import *
 
-q = int(input("Введите длину массива, который необходимо отсортировать: "))
-array = input("Введите значение массива: ")
+array = input("Введите массив (каждое число через пробел): ")
 array = array.split(" ")
 for i in range( len(array) ):
     array[i] = float( array[i] )
