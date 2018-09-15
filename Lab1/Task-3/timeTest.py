@@ -8,7 +8,7 @@ data = open("data.txt", "w")
 heapTime = dwarfTime = bubbleTime = blockTime = 0
 
 for k in range(100):
-	array = random.sample( range(1, 1000), 100 )
+	array = random.sample( range(1, 100), 10 )
 
 	time1 = time.time()
 	heapSort( dp(array) )
@@ -32,7 +32,7 @@ for k in range(100):
 
 	data.write( str(k) + " " + str(d1 * 1000 * 1000) + " " + str(d2 * 1000 * 1000) + " " + str(d3 * 1000 * 1000) + " " + str(d4 * 1000 * 1000) + "\n"  )
 
-print( "Среднее время сортировки массива из 100 элементов (в нс)" )
+print( "Среднее время сортировки массива из 100 элементов (в мкс)" )
 print( "Кучей:       " + str(heapTime * 1000 * 1000 / 100) )
 print( "Гномья:      " + str(dwarfTime * 1000 * 1000 / 100) )
 print( "Пузырьковая: " + str(bubbleTime * 1000 * 1000 / 100) )

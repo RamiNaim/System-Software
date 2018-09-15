@@ -59,7 +59,7 @@ def start():
 
 
 def facered_search(init_list):
-	# Счетцик, который показывает, какой атрибут мы определяем
+	# Счетчик, который показывает, какой атрибут мы определяем
 	number_of_attributes = 0
 
 	while len(init_list) != 1:

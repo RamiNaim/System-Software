@@ -5,10 +5,13 @@ Serezha=float(input())
 Nastya=float(input())
 C = 14
 D = 200
-if ((Nicita > 1) or (Serezha > 1) or (Nastya > 1)):
+if ((Nicita > 1) or (Serezha > 1) or (Nastya > 1) or (Nicita < 0) or (Serezha < 0) or (Nastya < 0)):
         print("Ввероятность может принимать значения от 0 до 1!!!")
 else:
-        Answer = float(Nicita*D/(C*3))/((Nicita + Serezha + Nastya)*(D/(C*3)))
+        # Считаем вероятность страшного оползня для Никиты
+        Answer = float((1 - (1 - Nicita)**(D/C))*(1 - Serezha**(D/C))*(1 - Nastya**(D/C)))
+        # Округляем ответ
         Answer = round(Answer, 3)
+        # Выводим ответ
         print(Answer)
 
