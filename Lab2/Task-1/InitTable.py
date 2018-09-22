@@ -11,19 +11,20 @@ random.seed( time.time() )
 def start():
 	limits = input("Укажите максимальное и минимальное значение случайной величины\n(Например: 0, 20):\n")
 
-	min, max = limits.split(", ")
-	min = float(min)
-	max = float(max)
+	min_val, max_val = limits.split(", ")
+	min_val = float(min_val)
+	max_val = float(max_val)
+
+	initTable(min_val, max_val)
 
 
-
-def initTable(min=-20, max=20):
+def initTable(minim=-20, maxim=20):
 
 	wb = Workbook()
 	ws = wb.active
 
-	upper_limit = max
-	lower_limit = min
+	upper_limit = maxim
+	lower_limit = minim
 
 	coords = set()
 
