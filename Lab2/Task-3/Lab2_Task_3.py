@@ -55,20 +55,11 @@ def corr(i, j):
 	x_exp_centered = centered_exp(i)
 	x_exp_var = var_exp(i)
 
-	y_exp_centered = centered_exp(j)
-	y_exp_var = var_exp(j)
-
 	r_lin = mean_list(x_centered, y_centered)
 	R_lin = r_lin / ( sqrt( x_var * y_var ) )
 
 	r_exp = mean_list(x_exp_centered, y_centered)
 	R_exp = r_exp / ( sqrt( x_exp_var * y_var ) )
-	"""
-	r_exp_2 = mean_list(x_centered, y_exp_centered)
-	R_exp_2 = r_exp_2 / ( sqrt( x_var * y_exp_var ) )
-
-	R_exp = max(R_exp_1, R_exp_2)
-	"""
 
 	result = [R_lin, R_exp]
 
