@@ -5,7 +5,7 @@ import time
 
 random.seed(time.time())
 
-def initTable():
+def initTable(wb, ws):
 	data = set()
 	for i in range(1,16):
 		for j in range(1,16):
@@ -20,7 +20,7 @@ def initTable():
 		i+=1
 	wb.save("Data1.xlsx")
 
-def vinz():
+def vinz(wb, ws):
 	for i in range(1,16):
 		for j in range(1,16):
 			if ws['A1'].value == 0:
@@ -35,7 +35,7 @@ def vinz():
 				ws.cell(column=j, row=i, value=val)
 	wb.save("Data1.xlsx")
 
-def linapr():
+def linapr(wb, ws):
 	for j in range(1,16):
 		sumx = 0 
 		sumx2 = 0
@@ -54,16 +54,16 @@ def linapr():
 				ws.cell(column=j, row=i, value=val)
 	wb.save("Data1.xlsx")
 
-def cor():
-	n_str = input("Введите номер ряда, который вы хотите восстановить.")
+def cor(wb, ws):
+	n_str = input("Введите номер ряда, который вы хотите восстановить:\n")
 	n = int(n_str)
-	m = input("Введите номер ряда, с которым он коррелирует")
+	m_str = input("Введите номер ряда, с которым он коррелирует:\n")
 	m = int(m_str)
 	for j in range(1,16):
 		if ws[get_column_letter(j) + str(n)].value == 0 and j==1:
 			val = ws[get_column_letter(j+1) + str(n)].value/(ws[get_column_letter(j) + str(m)].value*ws[get_column_letter(j+1) + str(m)].value)
 			ws.cell(column=j, row=n, value=val)			
-		if ws[get_column_letter(j) + str(n)].value == 0:
+		elif ws[get_column_letter(j) + str(n)].value == 0:
 			val = ws[get_column_letter(j-1) + str(n)].value/(ws[get_column_letter(j) + str(m)].value*ws[get_column_letter(j-1) + str(m)].value)
 			ws.cell(column=j, row=n, value=val)				
 	wb.save("Data1.xlsx")
@@ -71,10 +71,6 @@ def cor():
 
 
 
-if __name__ == '__main__':
-	wb = Workbook()
-	ws = wb.active
-	initTable()
-	cor()
+
 
 
