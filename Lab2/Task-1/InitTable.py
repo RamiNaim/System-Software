@@ -26,7 +26,7 @@ def initTable(minim=-20, maxim=20):
 	upper_limit = maxim
 	lower_limit = minim
 
-	coords = set()
+	coords = set() 
 
 	ws['A1'] = 'x'
 	ws['A2'] = 'y'
