@@ -1,8 +1,10 @@
-import pygame
 import random, time
 from math import copysign
 
 random.seed(time.time())
+
+WALL = True
+CELL = False
 
 
 class Cell:
@@ -23,62 +25,60 @@ class Labyrinth:
             self.maze.append([])
             for j in range(dim*2):
                 if ((i % 2 != 0) and (j % 2 != 0)) and ((i < (self.dim - 1)*2) and (j < (self.dim - 1)*2)):    
-                    self.maze[i].append(Cell(x=i, y=j, wall=False))
+                    self.maze[i].append(CELL)
                 else:
-                    self.maze[i].append(Cell(x=i, y=j, wall=True))
+                    self.maze[i].append(WALL)
 
-
-        for i in range(2*self.dim):
-            for j in range(2*self.dim):
-                if self.maze[i][j].wall:
-                    print(" - ", end='')
-                else:
-                    print(" + ", end='')
-                #print( self.maze[i][j].wall, end="; " )
-            print()
 
         self.generate()
-        print()
-        print()
-        print()
 
+
+    def get(self, i, j):
+        return self.maze[i][j]
+
+
+    def print_maze(self):
         for i in range(2*self.dim):
             for j in range(2*self.dim):
-                if self.maze[i][j].wall:
+                if self.maze[i][j] == WALL:
                     print(" - ", end='')
                 else:
                     print(" + ", end='')
-            #print( self.maze[i][j].wall, end="; " )
             print()
         print()
 
     def generate(self):
+
         stack = []
-        visited = [self.maze[1][1]]
+        visited = [ (1, 1) ]
 
         not_visited = self.getUnvisited(visited)
 
-        start_cell = self.maze[1][1]
-        currentCell = start_cell
+        start_cell = (1, 1)
+        currentCell  = start_cell
 
-        while not_visited:
-            print(len(not_visited))
-            neighbours = self.getNeighbours(start_cell, visited)
+
+        while len(not_visited) != 0:
+            neighbours = self.getNeighbours(currentCell, visited)
             if neighbours:
                 neighbourCell = random.choice( neighbours )
-                stack.append( neighbourCell )
-                visited = self.removeWall(currentCell, neighbourCell, visited)
+                stack.append( currentCell )
+                visited, not_visited = self.removeWall(currentCell, neighbourCell, visited, not_visited)
                 currentCell = neighbourCell
                 visited.append( currentCell )
+                not_visited.remove( currentCell )
+                neighbours = 0
             elif stack:
-                start_cell.pop()
+                currentCell = stack.pop()
             else:
-                not_visited = self.getUnvisited( visited )
                 currentCell = random.choice( not_visited )
+                visited.append( currentCell )
+                not_visited.remove( currentCell )
 
-    def removeWall(self, first, second, v):
-        dx = second.x - first.x
-        dy = second.y - first.y
+
+    def removeWall(self, first, second, v, nv):
+        dx = second[0] - first[0]
+        dy = second[1] - first[1]
 
         if dx == 0:
             addx = 0
@@ -90,52 +90,39 @@ class Labyrinth:
         else:
             addy = copysign(1, dy)
 
-        #print("Im breaking walls")
+        x = int(first[0] + addx)
+        y = int(first[1] + addy)
 
-        x = int(first.x + addx)
-        y = int(first.y + addy)
+        self.maze[x][y] = CELL
+        v.append( (x, y) )
+        nv.remove( (x, y) )
 
-        self.maze[x][y].wall = False
-        v.append( self.maze[x][y] )
-        return v
+        return v, nv
 
 
     def getNeighbours(self, cell, v):
-        up = (cell.x, cell.y+2)
-        down = (cell.x, cell.y-2)
-        right = (cell.x+2, cell.y)
-        left = (cell.x-2, cell.y)
+        up = (cell[0], cell[1]+2)
+        down = (cell[0], cell[1]-2)
+        right = (cell[0]+2, cell[1])
+        left = (cell[0]-2, cell[1])
         neighbours = [up, down, right, left]
         cells = []
 
         for n in neighbours:
-            if ( self.maze[n[0]][n[1]].x > 0 and self.maze[n[0]][n[1]].x < self.dim*2 ) and ( self.maze[n[0]][n[1]].y > 0 and self.maze[n[0]][n[1]].y < self.dim*2 ):
-                currentCell = self.maze[n[0]][n[1]]
-                #print(currentCell.wall, self.cellInList(currentCell, v), sep="; ")
+            if ( n[0] > 0 and n[0] < self.dim*2 ) and ( n[1] > 0 and n[1] < self.dim*2  ):
 
-                if not currentCell.wall and not self.cellInList(currentCell, v):
-                    cells.append(currentCell)
+                if ( not self.maze[n[0]][n[1]] == WALL ) and not ( n in v ):
+                    cells.append(n)
 
         return cells
  
 
-    def cellInList(self, cell, l):
-        for c in l:
-            if (cell.x == c.x) and (cell.y == c.y):
-                return (c.x, c.y)
-            else:
-                return False
-
 
     def getUnvisited(self, v):
         unvisited = []
-        for i in range(2*self.dim):
-            for j in range(2*self.dim):
-                if not self.cellInList(self.maze[i][j], v):
-                    unvisited.append( self.maze[i][j] )
+        for i in range(1, 2*self.dim):
+            for j in range(1, 2*self.dim):
+                if not (i, j) in v:
+                    unvisited.append( (i, j) )
 
         return unvisited
-
-
-
-l = Labyrinth(6)
