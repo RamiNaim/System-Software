@@ -11,7 +11,7 @@ BLUE = (0, 0, 250)
 SIZE = 40
 
 class Interface:
-	def __init__(self):
+	def __init__(self, ai=False):
 		pygame.init()
 		pygame.font.init()
 		self.screen = pygame.display.set_mode(RES)
@@ -28,18 +28,21 @@ class Interface:
 
 		self.steps = 0
 
+		self.ai_walk = ai
+
 
 	def draw(self):
 
 		self.maze = Labyrinth(SIZE)
 
-		while True:
+		while True and not self.ai_walk:
 			self.hero_x = random.randint(1, 2*(SIZE - 1))
 			self.hero_y = random.randint(1, 2*(SIZE - 1))
 			if self.maze.get(self.hero_x, self.hero_y) == CELL:
+				self.start_point = (self.hero_x, self.hero_y)
 				break
 
-		while True:
+		while True and not self.ai_walk:
 			x = random.randint(1, 2*(SIZE - 1))
 			y = random.randint(1, 2*(SIZE - 1))
 			if self.maze.get(x, y) == CELL:
@@ -81,8 +84,8 @@ class Interface:
 								if event.key == pygame.K_r:
 									self.draw()
 									self.start_time = time.time()
-									self.hero_x = 1
-									self.hero_y = 1
+									self.hero_x = self.start_point[0]
+									self.hero_y = self.start_point[1]
 									break
 
 			for event in pygame.event.get():
@@ -148,6 +151,7 @@ class Interface:
 			pygame.display.update()
 
 
+
 if __name__ == '__main__':
 	interface = Interface()
-	interface.main()
+	interface.main(True)

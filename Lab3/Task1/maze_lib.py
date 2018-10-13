@@ -7,15 +7,6 @@ WALL = True
 CELL = False
 
 
-class Cell:
-    def __init__(self, x=0, y=0, wall=False):
-        self.x = x
-        self.y = y
-        self.wall = wall
-    def get_coord(self):
-        return (self.x, self.y)
-
-
 
 class Labyrinth:
     def __init__(self, dim):
