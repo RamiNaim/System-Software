@@ -41,11 +41,14 @@ def alg3_v2(data):
 	list_sg = [data[0]]
 	for i in range(1, 50):
 		y = 0
+		sum_weight = 0
 		for j in range( len(weights) ):
 			if (i - ( len(weights) - j) ) < 0:
 				continue
 			y += data[ i - (len(weights) - j) ] * weights[j]
-		list_sg.append( y )
+			sum_weight += weights[j]
+
+		list_sg.append( y / sum_weight )
 	return list_sg
 
 
