@@ -1,12 +1,12 @@
 # Вывод матрицы
-def out (matrix):
-	if matrix != None:
+def out(matrix):
+	if matrix:
 		for i in range (0, rows(matrix)):
 			print(matrix[i])
 	return " "
+
 def rows(matrix):
-	rows = len(matrix)
-	return rows
+	return len(matrix)
 
 
 # Проверка устойчивости по Гурвицу
